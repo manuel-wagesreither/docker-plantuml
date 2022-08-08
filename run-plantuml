@@ -4,8 +4,10 @@ __run_plantuml() {
     local docker_image="miy4/plantuml"
     local host_src_volume="${PWD}"
     local container_dest_volume="/work"
+    local uid="$(id -u)"
+    local gid="$(id -g)"
 
-    exec docker run --volume="${host_src_volume}:${container_dest_volume}" --workdir="${container_dest_volume}" --rm --attach=stdin --attach=stdout --attach=stderr --interactive "${docker_image}" "$@"
+    exec docker run --volume="${host_src_volume}:${container_dest_volume}" --workdir="${container_dest_volume}" --env=uid --env=gid --rm --attach=stdin --attach=stdout --attach=stderr --interactive "${docker_image}" "$@"
 }
 
 __run_plantuml "$@"
